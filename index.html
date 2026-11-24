@@ -4,228 +4,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101311">
+<meta name="theme-color" content="#050906">
 <title>MY MONEY</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101311;color:#f2f5f2;font-family:Arial,sans-serif;padding:20px}
-main{max-width:600px;margin:auto}
-h1{font-size:29px;letter-spacing:2px;margin-bottom:5px}
-h1 span{color:#55d68b}
-.sub{color:#929b94;margin-bottom:25px}
-.card{background:#1a201c;border:1px solid #29332c;border-radius:17px;padding:18px;margin:14px 0}
-.label{color:#a4afa7;font-size:13px}
-.big{font-size:32px;font-weight:bold;margin:9px 0}
-.green{color:#55d68b}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.stats .card{margin:0}
-h2{font-size:17px;margin:0 0 15px}
-input,select,button{width:100%;padding:13px;border-radius:10px;border:1px solid #344139;background:#111713;color:white;font-size:15px;margin:6px 0}
-button{background:#55d68b;color:#102016;font-weight:bold;border:0;cursor:pointer}
-button.secondary{background:#29332c;color:white}
-.row{display:flex;gap:9px}
-.row>*{flex:1;min-width:0}
-.progress{height:9px;background:#303a32;border-radius:20px;overflow:hidden;margin:12px 0}
-.bar{height:100%;background:#55d68b;width:0%}
-.item{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #303a32}
-.item:last-child{border:0}
-.small{font-size:12px;color:#9ba59d;margin-top:4px}
-.positive{color:#55d68b}
-.negative{color:#ff7777}
-.empty{color:#8e9991;text-align:center;padding:15px}
+:root{--green:#39ff88;--bg:#050906;--card:#0d1710;--muted:#91a99a}
+body{
+ margin:0;background:var(--bg);color:#effff3;
+ font-family:Arial,sans-serif;padding-bottom:95px;
+ background-image:
+ radial-gradient(ellipse at 15% 10%,#123b22 0%,transparent 38%),
+ radial-gradient(ellipse at 90% 45%,#092719 0%,transparent 40%),
+ repeating-linear-gradient(135deg,#ffffff03 0px,#ffffff03 1px,transparent 1px,transparent 5px);
+}
+header{padding:28px 21px 12px}
+h1{
+ font-size:29px;letter-spacing:4px;margin:0;
+ color:var(--green);
+ text-shadow:0 0 8px #39ff88,0 0 22px #12bd5b;
+}
+header p{color:var(--muted);font-size:12px;letter-spacing:2px}
+main{padding:12px 17px}
+h2{font-size:22px;margin:12px 0 20px;color:#eaffef}
+h3{margin:0 0 15px;font-size:16px}
+.page{display:none}
+.page.active{display:block}
+.card{
+ background:linear-gradient(145deg,#112017eF,#09110cF2);
+ border:1px solid #39ff8845;border-radius:18px;
+ padding:19px;margin-bottom:14px;
+ box-shadow:0 0 14px #39ff8810,inset 0 0 18px #39ff8807;
+}
+.card.primary{
+ border-color:#39ff8880;
+ box-shadow:0 0 22px #39ff881c,inset 0 0 25px #39ff880b;
+}
+.small{font-size:12px;color:var(--muted);letter-spacing:.5px}
+.amount{
+ font-size:29px;font-weight:bold;margin-top:10px;
+ color:var(--green);text-shadow:0 0 12px #39ff8870;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+input,select{
+ width:100%;padding:14px;margin:6px 0;
+ border-radius:11px;border:1px solid #39ff8840;
+ background:#07100a;color:white;font-size:15px;outline:none;
+}
+input:focus,select:focus{
+ border-color:var(--green);box-shadow:0 0 10px #39ff8840;
+}
+button{
+ width:100%;padding:14px;border:1px solid var(--green);
+ border-radius:11px;background:#123b22;color:var(--green);
+ font-size:14px;font-weight:bold;margin:6px 0;
+ box-shadow:0 0 12px #39ff8820;cursor:pointer;
+}
+button:active{background:#1b6334}
+button.secondary{background:#101a13;color:#c5d8ca;border-color:#52685a}
+.transaction{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;padding:13px 0;border-bottom:1px solid #ffffff12;
+ font-size:13px;
+}
+.transaction:last-child{border-bottom:0}
+.green{color:var(--green);text-shadow:0 0 8px #39ff8870}
+.progress{
+ height:11px;background:#1b2c20;border-radius:20px;
+ overflow:hidden;margin-top:14px;border:1px solid #39ff8830;
+}
+.progress div{
+ height:100%;width:0%;
+ background:linear-gradient(90deg,#12a94f,#39ff88);
+ box-shadow:0 0 14px #39ff88;
+ transition:width .4s;
+}
+nav{
+ position:fixed;bottom:0;left:0;right:0;z-index:10;
+ display:flex;justify-content:space-around;
+ background:#07100af5;border-top:1px solid #39ff8845;
+ padding:9px 2px calc(9px + env(safe-area-inset-bottom));
+ box-shadow:0 -5px 22px #39ff8810;
+ backdrop-filter:blur(12px);
+}
+nav button{
+ background:transparent;border:0;box-shadow:none;
+ color:#81968a;margin:0;padding:7px 2px;
+ font-size:10px;display:flex;flex-direction:column;
+ align-items:center;gap:5px;
+}
+nav button span{font-size:21px}
+nav button.active{
+ color:var(--green);
+ text-shadow:0 0 10px #39ff88;
+}
+nav button.active span{filter:drop-shadow(0 0 5px #39ff88)}
 </style>
 </head>
 <body>
+
+<header>
+<h1>MY MONEY</h1>
+<p>YOUR MONEY. YOUR CONTROL.</p>
+</header>
+
 <main>
-<h1>MY <span>MONEY.</span></h1>
-<div class="sub">Deine Finanzen. Dein Überblick.</div>
+<section class="page active" id="home">
+<h2>Übersicht</h2>
+<div class="card primary">
+<div class="small">GESAMTVERMÖGEN</div>
+<div class="amount" id="total">0,00 €</div>
+</div>
+<div class="grid">
+<div class="card">
+<div class="small">VERFÜGBAR</div>
+<div class="amount" id="balance">0,00 €</div>
+</div>
+<div class="card">
+<div class="small">ERSPARNISSE</div>
+<div class="amount" id="savings">0,00 €</div>
+</div>
+</div>
+<div class="card">
+<h3>Dein Sparziel</h3>
+<div id="goalLabel" class="green">Noch kein Sparziel</div>
+<div class="progress"><div id="progress"></div></div>
+<p id="goalProgress" class="small">0 € / 0 €</p>
+</div>
+<div class="card">
+<h3>Letzte Aktivitäten</h3>
+<div id="recent"></div>
+</div>
+</section>
 
+<section class="page" id="income">
+<h2>Einnahmen</h2>
 <div class="card">
-<div class="label">GESAMTVERMÖGEN</div>
-<div class="big green" id="total">0,00 €</div>
-<div class="label">Dein gesamtes Geld inklusive Ersparnisse</div>
-</div>
-
-<div class="stats">
-<div class="card">
-<div class="label">VERFÜGBAR</div>
-<div class="big" id="available">0,00 €</div>
-</div>
-<div class="card">
-<div class="label">ERSpart</div>
-<div class="big green" id="savings">0,00 €</div>
-</div>
-</div>
-
-<div class="card">
-<h2>🎯 Sparziel</h2>
-<div class="row">
-<input id="goalName" placeholder="Name des Sparziels">
-<input id="goalAmount" type="number" min="0" step="0.01" placeholder="Ziel in €">
-</div>
-<button onclick="saveGoal()">Sparziel speichern</button>
-<div class="label" id="goalText">Noch kein Sparziel festgelegt</div>
-<div class="progress"><div class="bar" id="goalBar"></div></div>
-</div>
-
-<div class="card">
-<h2>＋ Einnahmen</h2>
-<input id="incomeName" placeholder="Beschreibung (z. B. Taschengeld)">
+<h3>Einnahme hinzufügen</h3>
+<input id="incomeName" placeholder="Beschreibung">
 <input id="incomeAmount" type="number" min="0.01" step="0.01" placeholder="Betrag in €">
-<button onclick="addIncome()">Einnahme hinzufügen</button>
+<button onclick="addTransaction('income')">+ Einnahme speichern</button>
 </div>
-
 <div class="card">
-<h2>－ Ausgaben</h2>
-<input id="expenseName" placeholder="Beschreibung (z. B. Kleidung)">
-<div class="row">
+<h3>Regelmäßiges Taschengeld</h3>
+<input id="allowance" type="number" min="0" step="0.01" placeholder="Monatlicher Betrag in €">
+<button onclick="saveAllowance()">Taschengeld speichern</button>
+<p class="small">Wird einmal pro Monat beim Öffnen gutgeschrieben.</p>
+</div>
+</section>
+
+<section class="page" id="expense">
+<h2>Ausgaben</h2>
+<div class="card">
+<h3>Neue Ausgabe</h3>
+<input id="expenseName" placeholder="Was hast du gekauft?">
 <input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="Betrag in €">
 <select id="category">
 <option>Sonstiges</option>
 <option>Essen</option>
 <option>Kleidung</option>
 <option>Gaming</option>
-<option>Musik</option>
 <option>Freizeit</option>
 <option>Technik</option>
+<option>Schule</option>
 </select>
+<button onclick="addTransaction('expense')">− Ausgabe speichern</button>
 </div>
-<button onclick="addExpense()">Ausgabe hinzufügen</button>
-</div>
+</section>
 
+<section class="page" id="saving">
+<h2>Sparen</h2>
 <div class="card">
-<h2>🏦 Sparen</h2>
-<div class="label">Geld zwischen verfügbar und Erspartem verschieben</div>
-<input id="transferAmount" type="number" min="0.01" step="0.01" placeholder="Betrag in €">
-<div class="row">
-<button onclick="transfer('save')">Geld sparen →</button>
-<button class="secondary" onclick="transfer('back')">← Zurückholen</button>
+<h3>Geld verschieben</h3>
+<input id="moveAmount" type="number" min="0.01" step="0.01" placeholder="Betrag in €">
+<button onclick="moveMoney('save')">Auf Ersparnisse übertragen</button>
+<button class="secondary" onclick="moveMoney('withdraw')">Aus Ersparnissen zurückholen</button>
 </div>
+<div class="card">
+<h3>Dein Sparziel</h3>
+<input id="goalName" placeholder="Name des Sparziels">
+<input id="goalAmount" type="number" min="0" step="0.01" placeholder="Zielbetrag in €">
+<button onclick="saveGoal()">Sparziel speichern</button>
 </div>
+</section>
 
-<div class="card">
-<h2>🔄 Regelmäßiges Taschengeld</h2>
-<div class="label">Wird einmal pro Kalendermonat automatisch verbucht.</div>
-<input id="allowance" type="number" min="0" step="0.01" placeholder="Monatliches Taschengeld in €">
-<button onclick="saveAllowance()">Taschengeld speichern</button>
-</div>
-
-<div class="card">
-<h2>📊 Transaktionen</h2>
-<div id="transactions"><div class="empty">Noch keine Transaktionen</div></div>
-<button class="secondary" onclick="clearHistory()">Verlauf löschen</button>
-</div>
-<div class="small" style="text-align:center;padding:20px">MY MONEY · Deine Daten bleiben auf diesem Gerät.</div>
+<section class="page" id="history">
+<h2>Verlauf</h2>
+<div class="card"><div id="transactions"></div></div>
+</section>
 </main>
 
+<nav>
+<button class="active" onclick="showPage('home',this)"><span>⌂</span>Übersicht</button>
+<button onclick="showPage('income',this)"><span>↗</span>Einnahmen</button>
+<button onclick="showPage('expense',this)"><span>↙</span>Ausgaben</button>
+<button onclick="showPage('saving',this)"><span>◎</span>Sparen</button>
+<button onclick="showPage('history',this)"><span>☷</span>Verlauf</button>
+</nav>
+
 <script>
-const KEY="mymoney_v1";
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
-available:0,savings:0,goalName:"",goalAmount:0,
-allowance:0,lastAllowance:"",transactions:[]
+const KEY='my-money-new-v2';
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ balance:0,savings:0,transactions:[],allowance:0,
+ lastAllowance:'',goalName:'',goalAmount:0
 };
 
-function money(n){
-return Number(n).toLocaleString("de-AT",{style:"currency",currency:"EUR"});
+function euro(n){
+ return Number(n||0).toLocaleString('de-AT',{style:'currency',currency:'EUR'});
 }
 function save(){
-localStorage.setItem(KEY,JSON.stringify(data));
-render();
+ localStorage.setItem(KEY,JSON.stringify(data));
+ render();
 }
-function addTransaction(name,amount,type,category=""){
-data.transactions.unshift({
-name,amount,type,category,date:new Date().toLocaleDateString("de-AT")
-});
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ button.classList.add('active');
 }
-function addIncome(){
-let name=document.getElementById("incomeName").value.trim()||"Einnahme";
-let amount=Number(document.getElementById("incomeAmount").value);
-if(!Number.isFinite(amount)||amount<=0)return alert("Bitte einen gültigen Betrag eingeben.");
-data.available+=amount;
-addTransaction(name,amount,"income");
-document.getElementById("incomeName").value="";
-document.getElementById("incomeAmount").value="";
-save();
+function addTransaction(type){
+ let name=document.getElementById(type==='income'?'incomeName':'expenseName').value.trim();
+ let amount=Number(document.getElementById(type==='income'?'incomeAmount':'expenseAmount').value);
+ if(!name||!Number.isFinite(amount)||amount<=0)return alert('Bitte Beschreibung und gültigen Betrag eingeben.');
+ if(type==='expense'&&amount>data.balance)return alert('Du hast nicht genug verfügbares Geld.');
+ if(type==='income')data.balance+=amount;
+ else data.balance-=amount;
+ data.transactions.unshift({
+  name,amount,type,
+  category:type==='expense'?document.getElementById('category').value:'Einnahme',
+  date:new Date().toLocaleDateString('de-AT')
+ });
+ document.getElementById(type==='income'?'incomeName':'expenseName').value='';
+ document.getElementById(type==='income'?'incomeAmount':'expenseAmount').value='';
+ save();
 }
-function addExpense(){
-let name=document.getElementById("expenseName").value.trim()||"Ausgabe";
-let amount=Number(document.getElementById("expenseAmount").value);
-let category=document.getElementById("category").value;
-if(!Number.isFinite(amount)||amount<=0)return alert("Bitte einen gültigen Betrag eingeben.");
-if(amount>data.available)return alert("Du hast nicht genug verfügbares Geld.");
-data.available-=amount;
-addTransaction(name,amount,"expense",category);
-document.getElementById("expenseName").value="";
-document.getElementById("expenseAmount").value="";
-save();
-}
-function transfer(direction){
-let amount=Number(document.getElementById("transferAmount").value);
-if(!Number.isFinite(amount)||amount<=0)return alert("Bitte einen gültigen Betrag eingeben.");
-if(direction==="save"){
-if(amount>data.available)return alert("Nicht genug verfügbares Geld.");
-data.available-=amount;data.savings+=amount;
-addTransaction("Auf Erspartes übertragen",amount,"transfer");
-}else{
-if(amount>data.savings)return alert("Nicht genug Erspartes.");
-data.savings-=amount;data.available+=amount;
-addTransaction("Aus Erspartem zurückgeholt",amount,"transferback");
-}
-document.getElementById("transferAmount").value="";
-save();
-}
-function saveGoal(){
-let name=document.getElementById("goalName").value.trim();
-let amount=Number(document.getElementById("goalAmount").value);
-if(!Number.isFinite(amount)||amount<0)return alert("Bitte ein gültiges Sparziel eingeben.");
-data.goalName=name;data.goalAmount=amount;save();
+function moveMoney(type){
+ let amount=Number(document.getElementById('moveAmount').value);
+ if(!Number.isFinite(amount)||amount<=0)return alert('Bitte einen gültigen Betrag eingeben.');
+ if(type==='save'){
+  if(amount>data.balance)return alert('Nicht genug verfügbares Geld.');
+  data.balance-=amount;data.savings+=amount;
+ }else{
+  if(amount>data.savings)return alert('Nicht genug Ersparnisse.');
+  data.savings-=amount;data.balance+=amount;
+ }
+ data.transactions.unshift({
+  name:type==='save'?'Auf Ersparnisse übertragen':'Aus Ersparnissen zurückgeholt',
+  amount,type:'transfer',date:new Date().toLocaleDateString('de-AT')
+ });
+ document.getElementById('moveAmount').value='';
+ save();
 }
 function saveAllowance(){
-let amount=Number(document.getElementById("allowance").value);
-if(!Number.isFinite(amount)||amount<0)return alert("Bitte einen gültigen Betrag eingeben.");
-data.allowance=amount;save();checkAllowance();
+ let amount=Number(document.getElementById('allowance').value);
+ if(!Number.isFinite(amount)||amount<0)return alert('Bitte einen gültigen Betrag eingeben.');
+ data.allowance=amount;save();
+}
+function saveGoal(){
+ data.goalName=document.getElementById('goalName').value.trim();
+ data.goalAmount=Number(document.getElementById('goalAmount').value)||0;
+ save();
 }
 function checkAllowance(){
-if(!data.allowance)return;
-let now=new Date();
-let month=now.getFullYear()+"-"+(now.getMonth()+1);
-if(data.lastAllowance!==month){
-data.available+=data.allowance;
-data.lastAllowance=month;
-addTransaction("Monatliches Taschengeld",data.allowance,"income");
-save();
-}
-}
-function clearHistory(){
-if(confirm("Möchtest du wirklich den gesamten Verlauf löschen?")){
-data.transactions=[];save();
-}
+ let now=new Date();
+ let month=now.getFullYear()+'-'+(now.getMonth()+1);
+ if(data.allowance>0&&data.lastAllowance!==month){
+  data.balance+=data.allowance;
+  data.lastAllowance=month;
+  data.transactions.unshift({
+   name:'Monatliches Taschengeld',amount:data.allowance,
+   type:'income',date:now.toLocaleDateString('de-AT')
+  });
+  localStorage.setItem(KEY,JSON.stringify(data));
+ }
 }
 function render(){
-document.getElementById("total").textContent=money(data.available+data.savings);
-document.getElementById("available").textContent=money(data.available);
-document.getElementById("savings").textContent=money(data.savings);
-document.getElementById("goalName").value=data.goalName;
-document.getElementById("goalAmount").value=data.goalAmount||"";
-document.getElementById("allowance").value=data.allowance||"";
-let percent=data.goalAmount>0?Math.min(100,data.savings/data.goalAmount*100):0;
-document.getElementById("goalText").textContent=data.goalAmount?
-data.goalName+" · "+money(data.savings)+" / "+money(data.goalAmount)+" ("+Math.round(percent)+"%)":
-"Noch kein Sparziel festgelegt";
-document.getElementById("goalBar").style.width=percent+"%";
-let box=document.getElementById("transactions");
-if(!data.transactions.length){box.innerHTML='<div class="empty">Noch keine Transaktionen</div>';return;}
-box.innerHTML=data.transactions.map(t=>{
-let sign=t.type==="income"?"+":t.type==="expense"?"−":"";
-let cls=t.type==="income"?"positive":t.type==="expense"?"negative":"";
-return '<div class="item"><div><b>'+escapeHTML(t.name)+'</b><div class="small">'+escapeHTML(t.category||t.date)+' · '+escapeHTML(t.date)+'</div></div><b class="'+cls+'">'+sign+money(t.amount)+'</b></div>';
-}).join("");
+ document.getElementById('total').textContent=euro(data.balance+data.savings);
+ document.getElementById('balance').textContent=euro(data.balance);
+ document.getElementById('savings').textContent=euro(data.savings);
+ document.getElementById('allowance').value=data.allowance||'';
+ document.getElementById('goalName').value=data.goalName||'';
+ document.getElementById('goalAmount').value=data.goalAmount||'';
+ document.getElementById('goalLabel').textContent=data.goalName||'Noch kein Sparziel';
+ let percent=data.goalAmount>0?Math.min(100,data.savings/data.goalAmount*100):0;
+ document.getElementById('progress').style.width=percent+'%';
+ document.getElementById('goalProgress').textContent=euro(data.savings)+' / '+euro(data.goalAmount);
+ let html=data.transactions.map(t=>`
+ <div class="transaction">
+ <div><strong>${escapeHTML(t.name)}</strong><div class="small">${t.date||''} · ${t.category||'Übertragung'}</div></div>
+ <strong class="${t.type==='income'?'green':''}">${t.type==='income'?'+':t.type==='expense'?'-':''}${euro(t.amount)}</strong>
+ </div>`).join('');
+ document.getElementById('transactions').innerHTML=html||'<p class="small">Noch keine Aktivitäten.</p>';
+ document.getElementById('recent').innerHTML=data.transactions.slice(0,3).map(t=>`
+ <div class="transaction"><span>${escapeHTML(t.name)}</span><strong>${t.type==='income'?'+':t.type==='expense'?'-':''}${euro(t.amount)}</strong></div>`).join('')||'<p class="small">Noch keine Aktivitäten.</p>';
 }
 function escapeHTML(s){
-return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-render();
 checkAllowance();
+render();
 </script>
 </body>
   </html>
